@@ -19,7 +19,7 @@ provides(SimpleBuild, (@build_steps begin
                          CreateDirectory(builddir)
                          @build_steps begin
                            ChangeDirectory(builddir)
-                           `cmake -D CMAKE_INSTALL_PREFIX=$(prefix) ..`
+                           `cmake -D CMAKE_INSTALL_PREFIX=$(prefix) -D ICAL_GLIB=OFF ..`
                            `make`
                            `make install`
                          end
