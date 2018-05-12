@@ -101,7 +101,7 @@ end
 mutable struct _icaltimezone
 end
 
-const icaltimezone = Void
+const icaltimezone = Nothing
 
 const clock_t = Clonglong
 const clockid_t = Cint
@@ -144,9 +144,9 @@ mutable struct icaldurationtype
 end
 
 mutable struct icalperiodtype
-    start::Void
-    _end::Void
-    duration::Void
+    start::Nothing
+    _end::Nothing
+    duration::Nothing
 end
 
 # begin enum icalcomponent_kind
@@ -230,8 +230,8 @@ const ICAL_9_0_UNRECOGNIZED_COMMAND = (UInt32)(38)
 # end enum icalrequeststatus
 
 mutable struct icaldatetimeperiodtype
-    time::Void
-    period::Void
+    time::Nothing
+    period::Nothing
 end
 
 mutable struct icalgeotype
@@ -240,8 +240,8 @@ mutable struct icalgeotype
 end
 
 mutable struct icaltriggertype
-    time::Void
-    duration::Void
+    time::Nothing
+    duration::Nothing
 end
 
 mutable struct icalreqstattype
@@ -253,19 +253,19 @@ end
 mutable struct icaltimezonephase
     tzname::Cstring
     is_stdandard::Cint
-    dtstart::Void
+    dtstart::Nothing
     offsetto::Cint
     tzoffsetfrom::Cint
     comment::Cstring
-    rdate::Void
+    rdate::Nothing
     rrule::Cstring
 end
 
 mutable struct icaltimezonetype
     tzid::Cstring
-    last_mod::Void
+    last_mod::Nothing
     tzurl::Cstring
-    phases::Ptr{Void}
+    phases::Ptr{Nothing}
 end
 
 # begin enum ical_unknown_token_handling
@@ -280,10 +280,10 @@ mutable struct _icalarray
     increment_size::Csize_t
     num_elements::Csize_t
     space_allocated::Csize_t
-    chunks::Ptr{Ptr{Void}}
+    chunks::Ptr{Ptr{Nothing}}
 end
 
-const icalarray = Void
+const icalarray = Nothing
 
 # begin enum icalrecurrencetype_frequency
 const icalrecurrencetype_frequency = UInt32
@@ -325,7 +325,7 @@ const ICAL_RECURRENCE_ARRAY_MAX_BYTE = (UInt32)(127)
 
 mutable struct icalrecurrencetype
     freq::icalrecurrencetype_frequency
-    until::Void
+    until::Nothing
     count::Cint
     interval::Int16
     week_start::icalrecurrencetype_weekday
@@ -345,18 +345,18 @@ end
 mutable struct icalrecur_iterator_impl
 end
 
-const icalrecur_iterator = Void
+const icalrecur_iterator = Nothing
 
 mutable struct icalattach_impl
 end
 
-const icalattach = Void
-const icalattach_free_fn_t = Ptr{Void}
+const icalattach = Nothing
+const icalattach_free_fn_t = Ptr{Nothing}
 
 mutable struct icalvalue_impl
 end
 
-const icalvalue = Void
+const icalvalue = Nothing
 
 # begin enum icalvalue_kind
 const icalvalue_kind = UInt32
@@ -574,7 +574,7 @@ const ICAL_XLICCLASS_NONE = (UInt32)(11199)
 mutable struct icalparameter_impl
 end
 
-const icalparameter = Void
+const icalparameter = Nothing
 
 # begin enum icalparameter_kind
 const icalparameter_kind = UInt32
@@ -870,7 +870,7 @@ const ICAL_XLICERRORTYPE_NONE = (UInt32)(21899)
 mutable struct icalproperty_impl
 end
 
-const icalproperty = Void
+const icalproperty = Nothing
 
 # begin enum icalproperty_kind
 const icalproperty_kind = UInt32
@@ -1001,24 +1001,24 @@ const ICAL_XLICMIMEOPTINFO_PROPERTY = (UInt32)(99)
 const ICAL_NO_PROPERTY = (UInt32)(100)
 # end enum icalproperty_kind
 
-const pvl_list = Ptr{Void}
+const pvl_list = Ptr{Nothing}
 
 mutable struct pvl_elem_t
     MAGIC::Cint
-    d::Ptr{Void}
-    next::Ptr{Void}
-    prior::Ptr{Void}
+    d::Ptr{Nothing}
+    next::Ptr{Nothing}
+    prior::Ptr{Nothing}
 end
 
-const pvl_elem = Ptr{Void}
-const pvl_comparef = Ptr{Void}
-const pvl_findf = Ptr{Void}
-const pvl_applyf = Ptr{Void}
+const pvl_elem = Ptr{Nothing}
+const pvl_comparef = Ptr{Nothing}
+const pvl_findf = Ptr{Nothing}
+const pvl_applyf = Ptr{Nothing}
 
 mutable struct icalcomponent_impl
 end
 
-const icalcomponent = Void
+const icalcomponent = Nothing
 
 mutable struct icalcompiter
     kind::icalcomponent_kind
@@ -1028,7 +1028,7 @@ end
 mutable struct icalparser_impl
 end
 
-const icalparser = Void
+const icalparser = Nothing
 
 # begin enum icalparser_state
 const icalparser_state = UInt32
@@ -1127,30 +1127,30 @@ const SSPM_MALFORMED_HEADER_ERROR = (UInt32)(5)
 mutable struct sspm_header
     def::Cint
     boundary::Cstring
-    major::Void
-    minor::Void
+    major::Nothing
+    minor::Nothing
     minor_text::Cstring
     content_type_params::Ptr{Cstring}
     charset::Cstring
-    encoding::Void
+    encoding::Nothing
     filename::Cstring
     content_id::Cstring
-    error::Void
+    error::Nothing
     error_text::Cstring
 end
 
 mutable struct sspm_part
-    header::Void
+    header::Nothing
     level::Cint
     data_size::Csize_t
-    data::Ptr{Void}
+    data::Ptr{Nothing}
 end
 
 mutable struct sspm_action_map
-    major::Void
-    minor::Void
-    new_part::Ptr{Void}
-    add_line::Ptr{Void}
-    end_part::Ptr{Void}
-    free_part::Ptr{Void}
+    major::Nothing
+    minor::Nothing
+    new_part::Ptr{Nothing}
+    add_line::Ptr{Nothing}
+    end_part::Ptr{Nothing}
+    free_part::Ptr{Nothing}
 end
