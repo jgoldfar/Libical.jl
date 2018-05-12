@@ -5,4 +5,6 @@ else
     using Base.Test
 end
 
-# write your own tests here
+@testset "Component" begin
+    include("Component.jl")
+end
