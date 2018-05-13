@@ -2,13 +2,11 @@ export Component
 
 mutable struct Component{T}
     ref::T
-
-    function Component(ref::T = nothing) where {T}
-        if ref != nothing
-            return new{T}(ref)
-        else
-            error("Component cannot be created from null reference.")
+    function Component(ref::T) where {T<:Ptr}
+        if ref == C_NULL || ref == nothing
+            error("Components cannot be null.")
         end
+        new{T}(ref)
     end
 end
 
