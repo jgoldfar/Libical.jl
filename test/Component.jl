@@ -40,8 +40,27 @@ skipParsing = ["crash.ics", "malloc.ics", "zday.ics", # Have embedded NUL
         comp2 = read(joinpath(testDataDir, f), Component)
         @test true
 
+        @show comp2
+        @test true # Print-methods work
+
         kind2 = Libical.kindof(comp2)
         kindStr2 = Libical.kindString(comp2)
         @test kindStr2 == kindStr
+
+        comps = @inferred Libical.components(comp2)
+        @test length(comps) >= 0
+
+        innerComp = Libical.inner_component(comp2)
+        @show innerComp
+        @test true
+
+        compAdd = Component("VEVENT")
+        Libical.add_component(comp2, compAdd)
+        newComps = Libical.components(comp2)
+        @test length(newComps) > length(comps)
+
+        Libical.remove_component(comp2, compAdd)
+        newComps = Libical.components(comp2)
+        @test length(newComps) == length(comps)
     end
 end
