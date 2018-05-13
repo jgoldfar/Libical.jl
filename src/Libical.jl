@@ -21,4 +21,6 @@ include("libical_core.jl")
 # High-level interface
 include("Component.jl")
 
+include("Property.jl")
+
 end # module
