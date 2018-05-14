@@ -5,6 +5,10 @@ else
     using Base.Test
 end
 
+@testset "Property" begin
+    include("Property.jl")
+end
+
 @testset "Component" begin
     include("Component.jl")
 end

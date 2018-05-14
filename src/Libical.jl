@@ -2,7 +2,7 @@ VERSION >= v"0.4.0-dev+6521" && __precompile__()
 module Libical
 
 @static if VERSION < v"0.7-"
-    using Compat: Nothing
+    using Compat: Nothing, occursin
 end
 using Compat: @compat
 
@@ -19,8 +19,8 @@ include("libical_types.jl")
 include("libical_core.jl")
 
 # High-level interface
-include("Component.jl")
-
 include("Property.jl")
+
+include("Component.jl")
 
 end # module

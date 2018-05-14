@@ -23,7 +23,6 @@ skipParsing = ["crash.ics", "malloc.ics", "zday.ics", # Have embedded NUL
 
 @testset "ComponentParser" begin
     @testset "test Data f=$f" for f in setdiff(testDataCalfiles, skipParsing)
-
         calString = read(joinpath(testDataDir, f), String)
         calComp = Libical.icalparser_parse_string(calString)
         icalerrno = unsafe_load(Libical.icalerrno_return())
@@ -40,7 +39,7 @@ skipParsing = ["crash.ics", "malloc.ics", "zday.ics", # Have embedded NUL
         comp2 = read(joinpath(testDataDir, f), Component)
         @test true
 
-        @show comp2
+        @show f, comp2
         @test true # Print-methods work
 
         kind2 = Libical.kindof(comp2)
@@ -62,5 +61,14 @@ skipParsing = ["crash.ics", "malloc.ics", "zday.ics", # Have embedded NUL
         Libical.remove_component(comp2, compAdd)
         newComps = Libical.components(comp2)
         @test length(newComps) == length(comps)
+
+        comp2props = Libical.properties(comp2)
+        @test true # Runs
+        if !isempty(comp2props)
+            @show Libical.name(first(comp2props))
+            @test true
+            @show first(comp2props)
+            @test true
+        end
     end
 end
