@@ -52,6 +52,8 @@ skipParsing = ["crash.ics", "malloc.ics", "zday.ics", # Have embedded NUL
                 @test true # Print methods work
 
             end
+        catch e
+            @show e
         end
     end
 end
