@@ -127,7 +127,13 @@ function _prop_from_ref(c::Component, p)
     prop
 end
 
-function property(c::Component, kind::PropertyKind)
+@static if VERSION < v"0.7-"
+    const PropertyKind = UInt32
+    const defaultPropertyKind = PropertyKind(ICAL_ANY_PROPERTY)
+else
+    const defaultPropertyKind = PropertyKinds.ANY
+end
+function property(c::Component, kind::PropertyKind = defaultPropertyKind)
     pint = icalcomponent_get_first_property(c.ref, UInt32(kind))
     if pint == C_NULL
         error("Property $(kind) not found.")
@@ -135,7 +141,7 @@ function property(c::Component, kind::PropertyKind)
     return Property(pint)
 end
 
-function properties(c::Component, kind::PropertyKind = PropertyKinds.ANY)
+function properties(c::Component, kind::PropertyKind = defaultPropertyKind)
     numProps = icalcomponent_count_properties(c.ref, UInt32(kind))
     propVec = Property{Ptr{icalproperty}}[]
     if numProps == 0

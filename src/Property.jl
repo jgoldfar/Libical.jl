@@ -39,9 +39,12 @@ const Attach = Property
 const Attendee = Property
 const Organizer = Property
 
-include("PropertyKinds.jl")
-using .PropertyKinds
-export PropertyKinds
+@static if VERSION >= v"0.7-"
+    # Enums offer a better interface, but this only works on v0.7+
+    include("PropertyKinds.jl")
+    using .PropertyKinds
+    export PropertyKinds
+end
 
 function Base.show(io::IO, p::Property)
     pname = name(p)
