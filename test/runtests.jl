@@ -19,7 +19,8 @@ if !isdir(joinpath(dirname(downloadPath), "src"))
     @static if Sys.isunix()
         run(Cmd(`tar xvzf $(downloadPath)`, dir=dirname(downloadPath)))
     else
-        error("I don't know how to install test data on this platform.")
+        const exe7z = joinpath(Sys.BINDIR, "7z.exe")
+        run(Cmd(pipeline(`$exe7z x $(downloadPath) -y -so`, `$exe7z x -si -y -ttar -o$(dirname(downloadPath))`), dir=dirname(downloadPath)))
     end
 end
 
