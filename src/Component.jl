@@ -44,7 +44,7 @@ function Base.show(io::IO, c::Component)
         print(io, "Component(\"", gstr[1:min(11, ngstr)], "...\")")
     end
 end
-Base.convert(::Type{T}, c::Component{T}) where {T} = c.ref
+Base.unsafe_convert(::Type{T}, c::Component{T}) where {T} = c.ref
 
 # Other, ical-specific interfaces
 kindof(c::Component) = icalcomponent_isa(c.ref)
@@ -67,6 +67,8 @@ function components(c::Component, kind::UInt32 = ICAL_ANY_COMPONENT)
     end
     compVec
 end
+
+#TODO: Expose iterator interface, allow filtering based on kind?
 function components(c::Component, kind::String)
     if isempty(kind)
         components(c)
@@ -125,22 +127,33 @@ function _prop_from_ref(c::Component, p)
     prop
 end
 
-function properties(c::Component, kind::UInt32 = ICAL_ANY_PROPERTY)
-    numProps = icalcomponent_count_properties(c.ref, kind)
+function property(c::Component, kind::PropertyKind)
+    pint = icalcomponent_get_first_property(c.ref, UInt32(kind))
+    if pint == C_NULL
+        error("Property $(kind) not found.")
+    end
+    return Property(pint)
+end
+
+function properties(c::Component, kind::PropertyKind = PropertyKinds.ANY)
+    numProps = icalcomponent_count_properties(c.ref, UInt32(kind))
     propVec = Property{Ptr{icalproperty}}[]
     if numProps == 0
         return propVec
     end
 
-    pint = icalcomponent_get_first_property(c.ref, kind)
+    pint = icalcomponent_get_first_property(c.ref, UInt32(kind))
 
     while pint != C_NULL
         push!(propVec, Property(pint))
 
-        pint = icalcomponent_get_next_property(c.ref, kind)
+        pint = icalcomponent_get_next_property(c.ref, UInt32(kind))
     end
     propVec
 end
+
+#TODO: Expose Dict interface
+# Then, add caching
 function properties(c::Component, kind::String)
     if isempty(kind)
         properties(c)

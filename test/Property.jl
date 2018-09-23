@@ -45,15 +45,15 @@ skipParsing = ["crash.ics", "malloc.ics", "zday.ics", # Have embedded NUL
 
             if !isempty(compProps)
                 firstProp = first(compProps)
-                @test typeof(Libical.name(firstProp)) <: String
-                @test typeof(Libical.value(firstProp)) <: String
+                @test typeof(Libical.name(firstProp)) <: AbstractString
+                @test typeof(Libical.value(firstProp)) <: AbstractString
 
                 @show firstProp
                 @test true # Print methods work
-
             end
         catch e
             @show e
         end
     end
 end
+

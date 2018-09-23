@@ -39,22 +39,46 @@ const Attach = Property
 const Attendee = Property
 const Organizer = Property
 
+include("PropertyKinds.jl")
+using .PropertyKinds
+export PropertyKinds
+
 function Base.show(io::IO, p::Property)
-    str = unsafe_string(icalproperty_as_ical_string(p.ref))
+    pname = name(p)
+    str = value(p)
     if get(io, :compact, false)
-        print(io, "Property(\"", str, "\")")
+        print(io, "Property(\"", pname, ":", str, "\")")
     else
         nstr = length(str)
-        print(io, "Property(\"", str[1:min(7, nstr)], "...\")")
+        print(io, "Property(\"", pname, ":", str[1:min(7, nstr)], "...\")")
     end
 end
 
+Base.unsafe_convert(::Type{Ptr{T}}, p::Property{T}) where {T} = p.ref
 
-name(p::Property) = unsafe_string(icalproperty_get_property_name(p.ref))
+function name(p::Property)
+    nref = icalproperty_get_property_name(p.ref)
+    s = try
+        unsafe_string(nref)
+    catch e
+        # String is NULL
+        ""
+    end
+    return strip(s)
+end
 
 #TODO: Handle cases needed by RFC 2445
 # See the (old) python bindings
-value(p::Property) = unsafe_string(icalproperty_get_value_as_string(p.ref))
+function value(p::Property)
+    vref = icalproperty_get_value_as_string(p.ref)
+    s = try
+        unsafe_string(vref)
+    catch e
+        # String is NULL
+        ""
+    end
+    strip(s)
+end
 
 function parameters(p::Property, kind::UInt32 = ICAL_ANY_PARAMETER)
     numPars = icalproperty_count_parameters(p.ref)
@@ -104,3 +128,7 @@ function Base.delete!(p::Property, param::String)
     end
     p
 end
+
+## Getters for particular structs based on a property
+get_rrule(p::Property) = icalproperty_get_rrule(p.ref)
+get_dtstart(p::Property) = icalproperty_get_dtstart(p.ref)
